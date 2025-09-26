@@ -11,7 +11,6 @@ const notFoundPage = fs.readFileSync('./views/404.html');
 const server = createServer((req, res) => {
     res.writeHead(200, { "content-type": "text/html" });
     if (req.method === 'GET') {
-
         if (req.url === '/') {
             res.end(homepage);
         } else if (req.url === '/about') {
