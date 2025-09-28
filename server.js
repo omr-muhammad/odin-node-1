@@ -1,13 +1,11 @@
-import fs from 'fs';
 import express from 'express';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
 const PORT = process.env.PORT || 3000;
-const __dirname = process.cwd();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-const homepage = fs.readFileSync('./views/index.html', 'utf-8');
-const aboutPage = fs.readFileSync('./views/about.html', 'utf-8');
-const contactMePage = fs.readFileSync('./views/contact-me.html', 'utf-8');
-const notFoundPage = fs.readFileSync('./views/404.html', 'utf-8');
 
 // ====== PLAIN NODE APPROACH =======
 // const server = createServer((req, res) => {
@@ -36,17 +34,17 @@ app.use((req, res, next) => {
 })
 
 app.get('/', (req, res) => {
-    res.status(200).send(homepage);
+    res.status(200).sendFile(`${__dirname}/views/index.html`);
 });
 app.get('/about', (req, res) => {
-    res.status(200).send(aboutPage)
+    res.status(200).sendFile(`${__dirname}/views/about.html`)
 });
 
 app.get('/contact-me', (req, res) => {
-    res.status(200).send(contactMePage)
+    res.status(200).sendFile(`${__dirname}/views/contact-me.html`)
 });
 app.use((req, res) => {
-    res.status(404).send(notFoundPage)
+    res.status(404).sendFile(`${__dirname}/views/404.html`)
 });
 
 app.listen(PORT, (err) => {
